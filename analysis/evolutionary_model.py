@@ -1,5 +1,5 @@
-# evolutionary model
-# this file produces the results in Figure 7 of the manuscript
+# about
+# this file recreates the evolutionary model in the appendix
 # author: @lrdegeest
 
 import matplotlib.pyplot as plt
@@ -115,5 +115,5 @@ piH_dd = pi(30,0,0)
 piH_dc = pi(30,0,10)    
 
 
-# run simulation
+# run simulation for 200 time steps
 run_sim(200)

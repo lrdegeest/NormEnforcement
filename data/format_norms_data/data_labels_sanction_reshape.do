@@ -1,6 +1,7 @@
 *==============================================================================
 * labeling/formatting the data before reshaping it in R
 * this file produces data_sanctions_reshape.dta which is then fed to R script for reshaping into targeting data 
+* kind of a pain but doing the reshaping in stata is more painful
 * author: @lrdegeest
 * ==============================================================================
 

@@ -1,6 +1,6 @@
 *===============================================================================
 * Estimate contribution norms: OBSERVED endowments (complete information)
-* this file produces norms_results_observed_all.dta which is then used to plot the norms/likelihood surfaces
+* produces results for Table 2 and Figure 4
 * author: @lrdegeest
 *===============================================================================
 
@@ -8,7 +8,7 @@ clear
 version 15
 
 * data
-use ../data/norms_data_estimation.dta
+use data/norms_data_estimation.dta
 * treatment: observed
 keep if treatment == 2
 
@@ -23,9 +23,8 @@ foreach i in `target_type' {
 	capture erase using norms_results_observed_target_`i'.dta
 	postutil clear
 	tempname results
-	postfile `results' /// collect 9 estimation results
-		norm ll model sender_type target_type ///
-			constant target_cont mean_contribute dev ///
+	postfile `results' /// 
+		norm ll model sender_type target_type iter N ///
 			using norms_results_observed_target_`i', replace
 	// run models
 	if `i' == 0 {
@@ -44,11 +43,11 @@ foreach i in `target_type' {
 				local controls target_cont contribute mean_contribute lagsanctioncost period
 				local dev_controls dev c.dev#c.mean_contribute
 				// extensive margin
-				capture noisily qui xtprobit target_sanction `controls' `dev_controls'  if sender_type == `j', re vce(cluster groupid)
-				post `results' (`k') (e(ll)) (1) (`j') (`i') (_b[_cons]) (_b[target_cont]) (_b[mean_contribute]) (_b[dev])
+				capture noisily qui xtprobit target_sanction `controls' `dev_controls'  if sender_type == `j', re vce(cluster groupid) technique(nr 100 bfgs 100)
+				post `results' (`k') (e(ll)) (1) (`j') (`i') (e(ic)) (e(N))
 				// intensive margin
-				capture noisily qui xtpoisson target_sanction $controls `dev_controls' if sender_type == `j' & target_sanction > 0, re vce(cluster groupid)
-				post `results' (`k') (e(ll)) (2) (`j') (`i') (_b[_cons]) (_b[target_cont]) (_b[mean_contribute]) (_b[dev])
+				capture noisily qui xtpoisson target_sanction `controls' `dev_controls' if sender_type == `j' & target_sanction > 0, re vce(cluster groupid) technique(nr 100 bfgs 100)
+				post `results' (`k') (e(ll)) (2) (`j') (`i') (e(ic)) (e(N)) 
 				drop dev
 				di "Done."
 				di " "
@@ -70,8 +69,6 @@ gen normal_ll = (ll - min) / (max - min)
 label define endow 0 "Low" 1 "High"
 label values sender_type endow
 label values target_type endow
-// view the models that maximize log-likelihood
-gsort -normal_ll model sender_type
 // save
 save norms_results_observed_all, replace
 *===============================================================================
