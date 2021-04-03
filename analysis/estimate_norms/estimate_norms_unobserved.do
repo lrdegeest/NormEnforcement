@@ -23,8 +23,8 @@ program define estimate_norms_unobserved
 	version 15
 	
 	quietly{
-		cd "~/Google Drive/research_gdrive/NormEnforcement/data"
-		use norms_data_estimation.dta 
+		// set dir here if necessary
+		use data/norms_data_estimation.dta 
 	}
 	
 	syntax [anything] [if], reveal(integer) lowerbound(integer) upperbound(integer) filename(string) 

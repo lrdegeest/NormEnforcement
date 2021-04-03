@@ -1,10 +1,12 @@
 # about -------------------------------------------------------------------
 # this file reshapes the targeting data so to estimate contribution norms
-# produces "targeting.dta"
+# produces "targeting_data.dta"
 # author: @lrdegeest
 
 # import data and set up --------------------------------------------------
 library(dplyr)
+library(reshape2) # note to self: wrote this a few years ago before switching over to tidyverse everything
+library(readstata13)
 df <- readstata13::read.dta13("data_sanctions_reshape.dta", generate.factors = T)
 df$endowment <- factor(df$endowment)
 names(df) <- gsub("_","", names(df))  

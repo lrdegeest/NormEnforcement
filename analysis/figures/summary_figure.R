@@ -79,7 +79,7 @@ low = df %>%
   stat_ecdf(aes(x = contribute, linetype = "unobserved"), data = filter(df, endowment == 0 & treatment == 0), color = "blue") + 
   stat_ecdf(aes(x = contribute, linetype = "observed"), data = filter(df, endowment == 0 & treatment == 1), color = "blue") + 
   scale_x_continuous(breaks=c(0,5,10)) + 
-  labs(x = "Contribution", y = "Proportion (ECDF)", title = "Low") + 
+  labs(x = "Contribution", y = "Proportion (CDF)", title = "Low") + 
   scale_linetype_manual(values = lines, 
                         name="", 
                         labels = c("Observed", "Unobserved")) + 
@@ -94,7 +94,7 @@ high = df %>%
   geom_vline(xintercept = 10, color = "gray", linetype = "solid") + 
   stat_ecdf(aes(x = contribute, linetype = "unobserved"), data = filter(df, endowment == 1 & treatment == 0), color = "orange") + 
   stat_ecdf(aes(x = contribute, linetype = "observed"), data = filter(df, endowment == 1 & treatment == 1), color = "orange") + 
-  labs(x = "Contribution", y = "Proportion (ECDF)", title = "High") + 
+  labs(x = "Contribution", y = "Proportion (CDF)", title = "High") + 
   scale_linetype_manual(values = lines, 
                         name="", 
                         labels = c("Observed", "Unobserved")) + 

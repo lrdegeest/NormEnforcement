@@ -11,8 +11,8 @@ program define expected_cost
     version 15
 	
 	quietly{
-		cd "~/Google Drive/research_gdrive/NormEnforcement/data"
-		use norms_data_estimation.dta 
+		// set dir here if necessary
+		use data/norms_data_estimation.dta 
 	}
 	
 	syntax [anything] [if], treatment(integer) ///
